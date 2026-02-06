@@ -13,7 +13,7 @@ class ProdukController extends Controller
     // 1. HALAMAN UTAMA (READ)
     public function index()
     {
-        // Soal No 5: Tampilkan HANYA status "bisa dijual"
+        //  Tampilkan HANYA status "bisa dijual"
         $produks = Produk::whereHas('status', function ($q) {
             $q->where('nama_status', 'bisa dijual');
         })->get();
@@ -21,7 +21,7 @@ class ProdukController extends Controller
         return view('produk.index', compact('produks'));
     }
 
-    // 2. FETCH DATA DARI API (SOAL NO 1 & 3)
+    // 2. FETCH DATA DARI API 
     public function fetchApi()
     {
         // Setup Password Dinamis (bisacoding-tgl-bln-thn)
@@ -30,9 +30,9 @@ class ProdukController extends Controller
         $passwordMd5 = md5($password); // Soal minta MD5
 
         // Request ke API FastPrint
-        // PENTING: Cek Username terbaru di website recruitment sebelum run!
+        
         $response = Http::withoutVerifying()->asForm()->post('https://recruitment.fastprint.co.id/tes/api_tes_programmer', [
-            'username' => 'tesprogrammer060226C09', // <--- Pastikan ini update sesuai web!
+            'username' => 'tesprogrammer060226C11', // <--- Pastikan ini update sesuai web!
             'password' => $passwordMd5
         ]);
         $data = $response->json();
@@ -83,7 +83,7 @@ class ProdukController extends Controller
     // 4. PROSES SIMPAN (CREATE)
     public function store(Request $request)
     {
-        // Soal No 7: Validasi (Nama harus diisi, Harga harus angka)
+        //  Validasi (Nama harus diisi, Harga harus angka)
         $request->validate([
             'nama_produk' => 'required',
             'harga' => 'required|numeric',
@@ -92,9 +92,7 @@ class ProdukController extends Controller
         ]);
 
         // Karena ID Produk di database API mungkin ribuan, kita biarkan ID auto increment atau random
-        // Tapi krn kita set primary key manual tadi, kita perlu hati2. 
-        // Solusi aman: Biarkan kosong jika autoincrement, atau generate manual.
-        // Untuk tes ini, kita pakai standard create laravel:
+        
 
         Produk::create($request->all());
 
